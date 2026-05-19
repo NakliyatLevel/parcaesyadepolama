@@ -1,0 +1,68 @@
+============================================================
+Parça Eşya Depolama – LLMS Bilgi Dosyası
+============================================================
+
+1. Site Genel Özeti
+-------------------
+- Platform Next.js 13 App Router mimarisiyle geliştirilmiş, Prisma ORM ve Neon PostgreSQL üzerinde çalışan tam entegre bir depolama & nakliyat deneyimi sunar.
+- Ana sayfadaki HeroSection bileşeni, site ayarlarını SSR üzerinden alarak FCP/CSS stabilize eder; Quick Quote formu `/api/hero-quote` endpoint’ine yazıp CRM tarafında e-posta tetikler.
+- Dinamik bloklar (Hizmetlerimiz, Neden Biz, İstatistikler, Süreç, Yorumlar, Galeri, SSS, Hizmet Bölgeleri, Referanslar, Ekip ve CTA) doğrudan veritabanından beslendiği için admin paneli üzerinden yapılan güncellemeler frontend’e otomatik yansır.
+- SEO için `generateLocalBusinessSchema` ve `generateReviewSchema` JSON-LD çıktıları başta olmak üzere structured data yayında; Lighthouse raporlarında CLS/TBT optimizasyonu için hero görseli, TrustBar ve WhatsApp bileşenleri responsive ölçülendirilmiştir.
+- Pazarlama sayfaları (hakkımızda, çözümler, servis detayları, blog, iletişim) ve korumalı admin segmenti `(protected)` grup yapısı üzerinden ayrıştırılmıştır.
+
+2. Çözümlerimiz ve Alt Modüller
+--------------------------------
+Aşağıdaki çözümler Header/Mobile menüde “Çözümlerimiz” kümesinde konumlanır ve her biri alt servis mantığıyla içerik sunar:
+- Ücretsiz Ekspertiz: Yerinde keşif, hacim ölçümü ve rota planlama; teklif öncesi risk analizini otomatik rapora dönüştürür.
+- Sözleşmeli Nakliyat: Parça/evden eve taşımalarda yazılı sözleşme, kapsamlı sigorta, teslimat SLA’sı; çift taraflı imza sonrası ERP entegrasyonuna not düşer.
+- Sigortalı Nakliyat: Poliçe numarası, teminat limiti ve hasar süreçleri site ayarları üzerinden düzenlenir; 250.000 TL+ teminat için ek sertifika üretir.
+- Asansörlü Nakliyat: Hidrolik dış cephe asansörleri, yük dengeleme ve apartman izin süreçlerini tek panelde yönetir.
+- Ambalaj ve Paketleme: Balonlu naylon, shrink, tahta kasa ve RFID etiketli paketleme seçenekleri; lojistik zincirinin ilk adımıdır.
+
+3. Hizmetler (Alt Hizmetler Dahil)
+----------------------------------
+Veritabanında aktif 9 depolama hizmeti bulunur, her biri HTML içerikli tablo ve listelerle zenginleştirilmiştir:
+1. Ev Eşyası Depolama – iklim kontrollü modüler konteynerler, sigortalı teslim alma, dijital stok raporu.
+2. Öğrenci Eşya Depolama – QR kodlu koli takibi, esnek dönemsel sözleşme, kampüs teslim alma.
+3. Beyaz Eşya Depolama – motorlu cihaz odaklı darbe sensörleri, üretici prosedürleri, periyodik bakım raporu.
+4. Parça Eşya Depolama – metreküp bazlı fiyatlama, RFID izleme, titreşim kontrollü taşıma.
+5. Ofis Eşyası Depolama – ERP uyumlu envanter, anti-statik IT kabinleri, çok lokasyonlu operasyon.
+6. Büro Depolama – sezonluk stok yönetimi, randevulu erişim, hızlı bölgesel teslimat.
+7. Arşiv Depolama – RFID indeksleme, SLA bazlı erişim, sertifikalı imha süreçleri.
+8. Evrak Depolama – yüksek çözünürlüklü tarama, biyometrik kasalar, zaman damgalı erişim logları.
+9. Koli Depolama – paletli raf sistemi, mobil konum takibi, parçalı sevkiyat ve darbe pedli koruma.
+
+Homepage’de “showOnHomepage” değeri true olan hizmetler kart bileşeninde üç kolonlu grid ile sunulur; diğer hizmetler detay sayfalarında `/hizmet/[slug]` rotasında meta title/description ile birlikte yayınlanır.
+
+4. Hizmet Bölgeleri (39 Lokasyon)
+----------------------------------
+`ServiceArea` tablosu 39 ilçeyi kapsar. İçerikler `/Users/karakar/Downloads/hizmetbolgeleri` klasöründeki HTML dosyalarından import edilmiştir; her bölgede meta title, meta description, description ve tam HTML içerik mevcuttur. Bölgeler:
+- Avrupa Yakası: Adalar*, Arnavutköy, Avcılar, Bağcılar, Bahçelievler, Bakırköy, Başakşehir, Bayrampaşa, Beşiktaş, Beylikdüzü, Beyoğlu, Büyükçekmece, Çatalca, Esenler, Esenyurt, Eyüpsultan, Fatih, Gaziosmanpaşa, Güngören, Kağıthane, Küçükçekmece, Sarıyer, Silivri, Sultangazi, Şişli, Zeytinburnu.
+- Anadolu Yakası: Ataşehir, Beykoz, Çekmeköy, Kadıköy, Kartal, Maltepe, Pendik, Sancaktepe, Sultanbeyli, Şile, Tuzla, Ümraniye, Üsküdar.
+(*Adalar coğrafi olarak Marmara’da yer alsa da operasyon planlamasında Avrupa yakası rotasına dahil edilir.)
+Her ilçe sayfası `/hizmet-bolgeleri/[slug]` rotasında yayınlanır; menü ve footer’daki “Hizmet Bölgeleri” bağlantıları bu listeyi referans alır.
+
+5. İçerik ve Deneyim Katmanları
+-------------------------------
+- TrustBar bileşeni: WhatsApp CTA’sı, 7/24 hizmet ve sigortalı taşıma mesajlarını sabit layout’ta sunar.
+- LogoMarquee & Partner bölümü: `Partner` tablosundaki aktif markaların logolarını grid ve marquee kombinasyonuyla gösterir.
+- Yorumlar: `Review` tablosunda Bebek, Nişantaşı, Etiler, Moda, Caddebostan, Suadiye gibi üst segment ilçelerden 6 adet 5 yıldızlı yorum bulunur; schema.org Review markup üretir.
+- SSS: Depolama süreci, iklim/nem kontrolü, erişim, sigorta, sözleşme ve kurumsal avantajlar hakkında 6 QA; accordion yapısı `<details>` elemanlarıyla minimal JS olmadan çalışır.
+- CTA katmanı: “Türkiye’nin Her Yerinden Güvenli Nakliyat Hizmeti” başlıklı bant; `getPhoneHref` ve `formatPhoneDisplay` yardımcıları fallback’li telefon erişimi sağlar.
+- Hızlı Teklif formu: Hero içindeki form `ROOM_OPTIONS` (1+1, 2+1, 3+1) preset’lerini kullanır; WhatsApp butonu aktif numara varsa `wa.me` linki üretir.
+
+6. Teknik Altyapı ve Veriye Erişim
+----------------------------------
+- API Routes: `/api/services`, `/api/settings`, `/api/hero-quote` vb. endpoint’ler hem frontend bileşenlerine hem admin paneline veri sağlar.
+- Admin Paneli (Karakar): `(protected)` route grubu içinde hizmetler, bölgeler, çözümler, istatistikler, süreçler, galeriler, FAQ, yorumlar ve site ayarları için CRUD formları bulunur.
+- Seed/Scriptler: `scripts/seed-services.ts`, `scripts/update-features.ts`, `scripts/update-reviews.ts`, `scripts/update-faqs.ts`, `scripts/import-service-areas.ts` gibi araçlar lokal ve Neon veritabanlarını eşleyerek içerik bütünlüğünü korur.
+- Performans: HeroSection SSR refaktörü, optimized Image `sizes` tanımları ve CLS düşürücü sabit layout’lar Lighthouse hedeflerini (Mobil %99, Masaüstü %100) yakalamak üzere hazırlanmıştır.
+
+7. Kullanım Notları
+-------------------
+- Tüm içerikler profesyonel, özgün ve SEO uyumlu yazılmıştır; meta başlık/açıklamalar Prisma kayıtlarına gömülüdür.
+- Menü, mobil menü ve footer bileşenleri hizmet listelerini dinamik olarak `/api/services` üzerinden çeker; veri yoksa fallback mesajları gösterir.
+- WhatsApp, telefon, e-posta ve sosyal medya linkleri site ayarlarından yönetilir; TrustBar, Footer ve MobileBottomBar bu ayarları paylaşır.
+- İçerik modülleri (tablolar/listeler) Tailwind sınıflarıyla uyumlu HTML blokları içerir; SSR’de sanitized olarak render edilir.
+
+Bu llms.txt dosyası, site genel stratejisini, çözümlerini, tüm hizmetleri ve 39 ilçeyi kapsayan hizmet bölgesi ağını ileri seviye özetler; AI destekli içerik üretimi, chatbot eğitimi veya dokümantasyon süreçlerinde referans olarak kullanılabilir.
