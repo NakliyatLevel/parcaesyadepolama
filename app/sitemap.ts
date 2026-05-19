@@ -5,66 +5,85 @@ export const dynamic = 'force-dynamic'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://parcaesyadepolama.com.tr'
+  const now = new Date()
 
   // Static pages
   const staticPages = [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'daily' as const,
       priority: 1,
     },
     {
       url: `${baseUrl}/hizmetlerimiz`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'weekly' as const,
       priority: 0.9,
     },
     {
       url: `${baseUrl}/hizmet-bolgeleri`,
-      lastModified: new Date(),
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/cozumler`,
+      lastModified: now,
       changeFrequency: 'weekly' as const,
       priority: 0.9,
     },
     {
       url: `${baseUrl}/teklif-al`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/hakkimizda`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     },
     {
       url: `${baseUrl}/referanslar`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'daily' as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/galeri`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     },
     {
       url: `${baseUrl}/sss`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'weekly' as const,
       priority: 0.6,
     },
     {
+      url: `${baseUrl}/gizlilik-politikasi`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.4,
+    },
+    {
+      url: `${baseUrl}/kullanim-kosullari`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.4,
+    },
+    {
       url: `${baseUrl}/iletisim`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.5,
     },
@@ -103,7 +122,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }).catch(() => [])
 
   const areaPages = serviceAreas.map((area) => ({
-    url: `${baseUrl}/bolge/${area.slug}`,
+    url: `${baseUrl}/hizmet-bolgeleri/${area.slug}`,
     lastModified: area.updatedAt,
     changeFrequency: 'monthly' as const,
     priority: 0.8,
