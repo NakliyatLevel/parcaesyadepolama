@@ -32,7 +32,7 @@ async function main() {
     { key: 'address', value: 'İstanbul, Türkiye' },
     { key: 'contact_info_description', value: 'Kesintisiz çalışan depo operasyon ekibimiz, emanet eşyalarınız için güvenlik raporları ve hızlı bilgilendirme desteği sunar.' },
     { key: 'contact_form_description', value: 'Bilgilerinizi paylaşın, depo planlama uzmanlarımız doluluk, fiyat ve teslimat süreçlerini dakikalar içinde sizinle paylaşsın.' },
-    { key: 'footer_description', value: 'Level Nakliyat; eşya depolama, uzun süreli muhafaza ve şehirler arası lojistikte iklim kontrollü alanları, sigortalı taşıma ağı ve deneyimli koordinasyon ekibiyle hizmet verir. Bireysel ve kurumsal müşteriler için planlama, paketleme, taşıma ve depoda saklama adımlarını uçtan uca yönetir.' },
+    { key: 'footer_description', value: 'Level Nakliyat; evden eve nakliyat, ofis taşıma, şehir içi ve şehirler arası taşımacılık alanlarında profesyonel hizmet sunar. Taşınma sürecini doğru planlama, güvenli eşya taşıma ve zamanında teslimat anlayışıyla yönetir. Deneyimli ekibi ve düzenli çalışma sistemiyle bireysel ve kurumsal müşteriler için güvenilir nakliyat çözümleri üretir.' },
     { key: 'services_description', value: 'Eşyalarınızı teslim aldığımız andan depoda saklandığı ana ve tekrar teslimata kadar tüm adımları güvenlik kontrolleri ve düzenli raporlarla yönetiyoruz.' },
     { key: 'features_description', value: 'Depolama hizmetimizde güvenlik, ısı ve nem izleme, hasar önleyici paketleme ve sigortalı taşıma standartlarıyla eşyalarınızı koşullara karşı koruyoruz.' },
     { key: 'process_description', value: 'Talebinizi analiz ediyor, gerekiyorsa yerinde keşif yapıyor, paketleme ve taşıma planını hazırlıyor, depolama sürecini raporlayıp teslimatı net şekilde iletiyoruz.' },

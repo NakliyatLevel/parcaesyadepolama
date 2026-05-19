@@ -254,7 +254,7 @@ export default async function HomePage() {
       )}
       <div className="min-h-screen">
       {/* Hero Section */}
-      <HeroSection />
+      <HeroSection initialSettings={settings} />
 
       {/* Logo Marquee - Referanslar (TrustBar Üstünde) */}
       <LogoMarquee

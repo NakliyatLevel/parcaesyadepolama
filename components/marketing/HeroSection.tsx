@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import {
   ShieldCheck,
@@ -27,9 +27,12 @@ type HeroFormState = {
 
 const HERO_FORM_CITY_PLACEHOLDER = 'Belirtilmedi'
 
-export default function HeroSection() {
-  const [mounted, setMounted] = useState(false)
-  const [settings, setSettings] = useState<any>({})
+type HeroSectionProps = {
+  initialSettings: Record<string, string | null | undefined>
+}
+
+export default function HeroSection({ initialSettings }: HeroSectionProps) {
+  const settings = initialSettings || {}
   const [heroForm, setHeroForm] = useState<HeroFormState>({
     roomType: ROOM_OPTIONS[0].value,
     fullName: '',
@@ -37,21 +40,6 @@ export default function HeroSection() {
   })
   const [heroSubmitLoading, setHeroSubmitLoading] = useState(false)
   const [heroSubmitMessage, setHeroSubmitMessage] = useState('')
-
-  useEffect(() => {
-    setMounted(true)
-    
-    fetch('/api/settings')
-      .then((res) => res.json())
-      .then((data) => {
-        setSettings(data)
-      })
-      .catch(() => {})
-
-    return () => {}
-  }, [])
-
-  if (!mounted) return null
 
   const heroRoomKey = heroForm.roomType.replace('+', '_')
   const heroPriceMinRaw = settings[`hero_price_${heroRoomKey}_min`]
@@ -176,9 +164,10 @@ export default function HeroSection() {
                           <Image
                             src="/trust.webp"
                             alt="Şikayet yok güven rozeti"
-                            width={430}
-                            height={414}
+                            width={160}
+                            height={160}
                             priority
+                            sizes="(min-width: 1024px) 5.7rem, (min-width: 768px) 4.85rem, 3.5rem"
                             className="w-full h-auto"
                           />
                         </div>
