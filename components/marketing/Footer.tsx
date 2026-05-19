@@ -1,9 +1,17 @@
 import Link from 'next/link'
 import { getSiteSettings } from '@/lib/settings'
 import { Phone, Mail, MapPin, Facebook, Instagram, Twitter, MessageCircle } from 'lucide-react'
+import { prisma } from '@/lib/db'
 
 export default async function Footer() {
-  const settings = await getSiteSettings()
+  const [settings, services] = await Promise.all([
+    getSiteSettings(),
+    prisma.service.findMany({
+      where: { active: true },
+      orderBy: { order: 'asc' },
+      take: 5,
+    }),
+  ])
 
   return (
     <footer className="bg-foreground text-white">
@@ -61,19 +69,22 @@ export default async function Footer() {
           <div>
             <h4 className="font-semibold mb-4 text-white text-sm uppercase tracking-wider">Hizmetlerimiz</h4>
             <ul className="space-y-2.5">
-              {[
-                { label: 'Ev Taşıma', href: '/hizmet/ev-tasima' },
-                { label: 'Villa Taşımacılığı', href: '/hizmet/villa-tasimaciligi' },
-                { label: 'Parça Eşya Taşımacılığı', href: '/hizmet/parca-esya-tasimaciligi' },
-                { label: 'Şehir içi Nakliyat', href: '/hizmet/sehir-ici-nakliyat' },
-                { label: 'Şehirler Arası Nakliyat', href: '/hizmet/sehirlerarasi-nakliyat' },
-              ].map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="text-white/70 hover:text-white text-sm transition">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {services.length > 0 ? (
+                services.map((service) => (
+                  <li key={service.id}>
+                    <Link href={`/hizmet/${service.slug}`} className="text-white/70 hover:text-white text-sm transition">
+                      {service.name}
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <li className="text-white/60 text-sm">Hizmet listesi yakında güncellenecek.</li>
+              )}
+              <li>
+                <Link href="/hizmetlerimiz" className="text-white text-sm font-semibold hover:text-secondary transition">
+                  Tüm Hizmetler →
+                </Link>
+              </li>
             </ul>
           </div>
 

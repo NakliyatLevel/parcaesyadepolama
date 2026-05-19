@@ -429,9 +429,9 @@ import { NextSeo } from 'next-seo'
 <NextSeo
   title="Evden Eve Nakliyat"
   description="Profesyonel nakliyat hizmetleri"
-  canonical="https://yourdomain.com"
+  canonical="https://parcaesyadepolama.com.tr"
   openGraph={{
-    url: 'https://yourdomain.com',
+    url: 'https://parcaesyadepolama.com.tr',
     title: 'Evden Eve Nakliyat',
     description: 'Profesyonel nakliyat hizmetleri',
     images: [{ url: '/og-image.jpg' }],

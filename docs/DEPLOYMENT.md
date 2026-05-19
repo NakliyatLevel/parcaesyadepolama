@@ -86,14 +86,14 @@ NEXT_PUBLIC_SITE_URL=
 ```
 DATABASE_URL = [Vercel Postgres'ten alınacak]
 NEXTAUTH_SECRET = [rastgele güçlü string]
-NEXTAUTH_URL = https://yourdomain.com
+NEXTAUTH_URL = https://parcaesyadepolama.com.tr
 SMTP_HOST = smtp.gmail.com
 SMTP_PORT = 587
 SMTP_USER = your-email@gmail.com
 SMTP_PASS = your-app-password
 GOOGLE_MAPS_API_KEY = your-api-key
-ADMIN_EMAIL = admin@yourdomain.com
-NEXT_PUBLIC_SITE_URL = https://yourdomain.com
+ADMIN_EMAIL = admin@parcaesyadepolama.com.tr
+NEXT_PUBLIC_SITE_URL = https://parcaesyadepolama.com.tr
 ```
 
 **NEXTAUTH_SECRET Oluşturma:**
@@ -167,7 +167,7 @@ npx prisma db seed
 
 1. Vercel Dashboard → Project → **Settings** → **Domains**
 2. **Add** butonuna tıklayın
-3. Domain adınızı girin (örn: `colaknakli.com`)
+3. Domain adınızı girin: `parcaesyadepolama.com.tr`
 4. **Add** butonuna tıklayın
 
 #### Adım 2: DNS Ayarları
@@ -209,9 +209,9 @@ Domain bağlandıktan sonra otomatik aktif olur.
 Domain bağlandıktan sonra:
 
 1. **Environment Variables** → `NEXTAUTH_URL`
-2. Değeri güncelleyin: `https://yourdomain.com`
+2. Değeri güncelleyin: `https://parcaesyadepolama.com.tr`
 3. **Environment Variables** → `NEXT_PUBLIC_SITE_URL`
-4. Değeri güncelleyin: `https://yourdomain.com`
+4. Değeri güncelleyin: `https://parcaesyadepolama.com.tr`
 5. **Redeploy** butonuna tıklayın
 
 ---
@@ -380,7 +380,7 @@ sudo nano /etc/nginx/sites-available/nakliyat
 ```nginx
 server {
     listen 80;
-    server_name yourdomain.com www.yourdomain.com;
+    server_name parcaesyadepolama.com.tr www.parcaesyadepolama.com.tr;
 
     location / {
         proxy_pass http://localhost:3000;
@@ -414,7 +414,7 @@ sudo systemctl restart nginx
 sudo apt-get install certbot python3-certbot-nginx
 
 # SSL sertifikası al
-sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+sudo certbot --nginx -d parcaesyadepolama.com.tr -d www.parcaesyadepolama.com.tr
 
 # Otomatik yenileme
 sudo certbot renew --dry-run

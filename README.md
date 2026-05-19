@@ -105,7 +105,7 @@ DATABASE_URL="postgresql://..."
 
 # Auth
 NEXTAUTH_SECRET="..."
-NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_URL="https://parcaesyadepolama.com.tr"
 
 # SMTP
 SMTP_HOST="smtp.gmail.com"
@@ -117,10 +117,10 @@ SMTP_PASS="your-app-password"
 GOOGLE_MAPS_API_KEY="..."
 
 # Admin Email
-ADMIN_EMAIL="admin@yourdomain.com"
+ADMIN_EMAIL="admin@parcaesyadepolama.com.tr"
 
 # Site URL
-NEXT_PUBLIC_SITE_URL="http://localhost:3000"
+NEXT_PUBLIC_SITE_URL="https://parcaesyadepolama.com.tr"
 ```
 
 ## 🚀 Deployment

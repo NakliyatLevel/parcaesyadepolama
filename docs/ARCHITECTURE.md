@@ -841,7 +841,7 @@ NEXTAUTH_URL=http://localhost:3000
 NODE_ENV=production
 DATABASE_URL=postgresql://...
 NEXTAUTH_SECRET=...
-NEXTAUTH_URL=https://yourdomain.com
+NEXTAUTH_URL=https://parcaesyadepolama.com.tr
 ```
 
 ---

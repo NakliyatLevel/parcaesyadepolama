@@ -84,7 +84,7 @@ export async function generateMetadata(): Promise<Metadata> {
 // Her sayfada
 export const metadata: Metadata = {
   alternates: {
-    canonical: 'https://yourdomain.com/current-page',
+    canonical: 'https://parcaesyadepolama.com.tr/current-page',
   },
 }
 ```

@@ -5,6 +5,7 @@ import { Clock, Shield, MessageCircle } from 'lucide-react'
 
 export default function TrustBar() {
   const [whatsapp, setWhatsapp] = useState<string | null>(null)
+  const DEFAULT_WHATSAPP = '05323324571'
 
   useEffect(() => {
     fetch('/api/settings')
@@ -17,8 +18,8 @@ export default function TrustBar() {
       .catch(() => {})
   }, [])
 
-  const whatsappNumber = whatsapp?.toString().replace(/[^0-9]/g, '')
-  const whatsappUrl = whatsappNumber ? `https://wa.me/${whatsappNumber}` : null
+  const whatsappNumber = (whatsapp || DEFAULT_WHATSAPP).toString().replace(/[^0-9]/g, '')
+  const whatsappUrl = `https://wa.me/${whatsappNumber}`
 
   return (
     <section className="hidden md:block bg-white border-y-2 border-primary/20 py-6">
@@ -36,21 +37,15 @@ export default function TrustBar() {
 
           <div className="text-center">
             <div className="text-sm text-muted-foreground mb-2">WhatsApp üzerinden hızlıca ulaşın</div>
-            {whatsappUrl ? (
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-emerald-600 text-white font-semibold text-lg hover:bg-emerald-700 transition"
-              >
-                <MessageCircle className="w-5 h-5" />
-                WhatsApp
-              </a>
-            ) : (
-              <a href="tel:4446502" className="text-3xl font-bold text-secondary hover:text-secondary/80 transition">
-                444 65 02
-              </a>
-            )}
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-emerald-600 text-white font-semibold text-lg hover:bg-emerald-700 transition"
+            >
+              <MessageCircle className="w-5 h-5" />
+              WhatsApp
+            </a>
           </div>
 
           <div className="flex items-center gap-4 justify-center md:justify-end">

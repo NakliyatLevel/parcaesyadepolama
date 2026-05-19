@@ -7,11 +7,16 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { fullName, phone, fromCity, toCity, roomType, priceMin, priceMax } = body
 
-    if (!fullName?.trim() || !phone?.trim() || !fromCity?.trim() || !toCity?.trim() || !roomType?.trim()) {
+    if (!fullName?.trim() || !phone?.trim() || !roomType?.trim()) {
       return NextResponse.json({ error: 'Lütfen tüm alanları doldurun.' }, { status: 400 })
     }
 
-    const rooms = Number.parseInt(roomType, 10) || Number.parseInt(roomType.split('+')[0], 10) || 1
+    const sanitizedFrom = fromCity?.trim() || 'Belirtilmedi'
+    const sanitizedTo = toCity?.trim() || 'Belirtilmedi'
+    const sanitizedRoomType = roomType.trim()
+
+    const rooms =
+      Number.parseInt(sanitizedRoomType, 10) || Number.parseInt(sanitizedRoomType.split('+')[0], 10) || 1
 
     const quote = await prisma.quote.create({
       data: {
@@ -19,10 +24,10 @@ export async function POST(request: Request) {
         phone: phone.trim(),
         email: body.email?.trim() || 'hero-form@levelnakliyat.com',
         preferredDate: null,
-        fromAddress: fromCity.trim(),
+        fromAddress: sanitizedFrom,
         fromFloor: 0,
         fromElevator: false,
-        toAddress: toCity.trim(),
+        toAddress: sanitizedTo,
         toFloor: 0,
         toElevator: false,
         distance: null,
@@ -45,9 +50,9 @@ export async function POST(request: Request) {
       await sendHeroQuickQuoteEmail({
         fullName: fullName.trim(),
         phone: phone.trim(),
-        fromCity: fromCity.trim(),
-        toCity: toCity.trim(),
-        roomType: roomType.trim(),
+        fromCity: sanitizedFrom,
+        toCity: sanitizedTo,
+        roomType: sanitizedRoomType,
         priceMin,
         priceMax,
       })

@@ -8,7 +8,7 @@ Bu doküman, projenin %100 dinamik içerik sistemini detaylı olarak açıklar.
 
 **Kesinlikle hardcode edilmeyecek veriler:**
 - Site başlığı, şirket adı
-- Domain adı
+- Domain adı (parcaesyadepolama.com.tr)
 - İletişim bilgileri (telefon, email, adres)
 - Logo URL'leri
 - Sosyal medya linkleri
@@ -75,7 +75,7 @@ model SiteSetting {
 const generalSettings = {
   site_title: "Çolak Nakliyat",
   company_name: "Çolak Evden Eve Nakliyat Ltd.",
-  domain: "colaknakli.com",
+  domain: "parcaesyadepolama.com.tr",
   description: "Profesyonel evden eve nakliyat hizmetleri"
 }
 ```

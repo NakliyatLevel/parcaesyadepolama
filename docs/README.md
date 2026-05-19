@@ -121,10 +121,10 @@ SMTP_PASS="your-app-password"
 GOOGLE_MAPS_API_KEY="your-google-maps-api-key"
 
 # Admin Email
-ADMIN_EMAIL="admin@yourdomain.com"
+ADMIN_EMAIL="admin@parcaesyadepolama.com.tr"
 
 # Site URL
-NEXT_PUBLIC_SITE_URL="http://localhost:3000"
+NEXT_PUBLIC_SITE_URL="https://parcaesyadepolama.com.tr"
 ```
 
 ### 4. Veritabanını Hazırlayın

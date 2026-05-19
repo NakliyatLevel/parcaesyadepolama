@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { X, ChevronDown, ChevronUp } from 'lucide-react'
 
@@ -9,10 +9,38 @@ interface MobileMenuProps {
   onClose: () => void
 }
 
+type ServiceLink = {
+  id: string
+  name: string
+  slug: string
+}
+
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const [isCozumlerOpen, setIsCozumlerOpen] = useState(false)
   const [isHizmetlerOpen, setIsHizmetlerOpen] = useState(false)
   const [isGaleriOpen, setIsGaleriOpen] = useState(false)
+  const [services, setServices] = useState<ServiceLink[]>([])
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    fetch('/api/services')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.data && Array.isArray(data.data)) {
+          setServices(
+            data.data.map((service: any) => ({
+              id: service.id,
+              name: service.name,
+              slug: service.slug,
+            }))
+          )
+        } else {
+          setServices([])
+        }
+      })
+      .catch(() => setServices([]))
+  }, [isOpen])
 
   if (!isOpen) return null
 
@@ -106,50 +134,29 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               </button>
               {isHizmetlerOpen && (
                 <ul className="ml-4 mt-1 space-y-1 border-l-2 border-primary/20 pl-2">
-                  <li className="py-1 px-3 text-xs font-semibold text-primary uppercase tracking-wide">Bireysel</li>
+                  {services.length > 0 ? (
+                    services.slice(0, 10).map((service) => (
+                      <li key={service.id}>
+                        <Link
+                          href={`/hizmet/${service.slug}`}
+                          onClick={onClose}
+                          className="block py-2 px-3 hover:bg-gray-100 rounded-md transition text-sm text-gray-700"
+                        >
+                          {service.name}
+                        </Link>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="py-2 px-3 text-xs text-muted-foreground">
+                      Hizmet listesi yakında güncellenecek.
+                    </li>
+                  )}
                   <li>
-                    <Link href="/hizmet/ev-tasima" onClick={onClose} className="block py-2 px-3 hover:bg-gray-100 rounded-md transition text-sm text-gray-700">
-                      Ev Taşıma
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/hizmet/villa-tasimaciligi" onClick={onClose} className="block py-2 px-3 hover:bg-gray-100 rounded-md transition text-sm text-gray-700">
-                      Villa Taşımacılığı
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/hizmet/parca-esya-tasimaciligi" onClick={onClose} className="block py-2 px-3 hover:bg-gray-100 rounded-md transition text-sm text-gray-700">
-                      Parça Eşya Taşımacılığı
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/hizmet/sehir-ici-nakliyat" onClick={onClose} className="block py-2 px-3 hover:bg-gray-100 rounded-md transition text-sm text-gray-700">
-                      Şehir İçi Nakliyat
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/hizmet/sehirler-arasi-nakliyat" onClick={onClose} className="block py-2 px-3 hover:bg-gray-100 rounded-md transition text-sm text-gray-700">
-                      Şehirler Arası Nakliyat
-                    </Link>
-                  </li>
-                  <li className="py-1 px-3 text-xs font-semibold text-primary uppercase tracking-wide mt-1">Kurumsal</li>
-                  <li>
-                    <Link href="/hizmet/ofis-tasimaciligi" onClick={onClose} className="block py-2 px-3 hover:bg-gray-100 rounded-md transition text-sm text-gray-700">
-                      Ofis Taşımacılığı
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/hizmet/fabrika-tasimaciligi" onClick={onClose} className="block py-2 px-3 hover:bg-gray-100 rounded-md transition text-sm text-gray-700">
-                      Fabrika Taşımacılığı
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/hizmet/hastane-tasimaciligi" onClick={onClose} className="block py-2 px-3 hover:bg-gray-100 rounded-md transition text-sm text-gray-700">
-                      Hastane Taşımacılığı
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/hizmetlerimiz" onClick={onClose} className="block py-2 px-3 hover:bg-gray-100 rounded-md transition text-sm font-medium text-primary">
+                    <Link
+                      href="/hizmetlerimiz"
+                      onClick={onClose}
+                      className="block py-2 px-3 hover:bg-gray-100 rounded-md transition text-sm font-medium text-primary"
+                    >
                       Tüm Hizmetler →
                     </Link>
                   </li>

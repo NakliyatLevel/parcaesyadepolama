@@ -43,6 +43,8 @@ export default function SettingsForm({ initialSettings }: SettingsFormProps) {
     { key: 'partners_description', label: 'Çalıştığımız Firmalar Açıklama', type: 'textarea' },
     { key: 'quote_title', label: 'Hızlı Teklif Başlığı', type: 'text' },
     { key: 'quote_description', label: 'Hızlı Teklif Açıklama', type: 'textarea' },
+    { key: 'quote_hero_subtitle', label: 'Hızlı Teklif Alt Başlık', type: 'text' },
+    { key: 'quote_hero_note', label: 'Hızlı Teklif Notu', type: 'textarea' },
     { key: 'blog_description', label: 'Son Blog Yazıları Açıklama', type: 'textarea' },
     { key: 'seo_title', label: 'SEO Başlık', type: 'text' },
     { key: 'seo_description', label: 'SEO Açıklama', type: 'textarea' },

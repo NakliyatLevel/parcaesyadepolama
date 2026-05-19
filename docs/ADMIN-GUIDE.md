@@ -6,7 +6,7 @@ Bu doküman, admin panelinin nasıl kullanılacağını detaylı olarak açıkla
 
 ### Admin Paneline Erişim
 
-**URL:** `https://yourdomain.com/karakar`
+**URL:** `https://parcaesyadepolama.com.tr/karakar`
 
 **İlk Giriş Bilgileri:**
 - Email: `admin@example.com`
@@ -521,12 +521,12 @@ Diğer modüllerle aynı şekilde.
 
 - **Site Başlığı:** Tarayıcı sekmesinde görünür
 - **Şirket Adı:** Resmi şirket adı
-- **Domain:** yourdomain.com
+- **Domain:** parcaesyadepolama.com.tr
 
 ### İletişim Bilgileri
 
 - **Telefon:** +90 555 123 4567
-- **Email:** info@yourdomain.com
+- **Email:** info@parcaesyadepolama.com.tr
 - **WhatsApp:** +90 555 123 4567
 - **Adres:** Tam adres
 
@@ -578,9 +578,9 @@ Diğer modüllerle aynı şekilde.
 
 ### Özel Sunucu SMTP
 
-- **Host:** mail.yourdomain.com
+- **Host:** mail.parcaesyadepolama.com.tr
 - **Port:** 465 (SSL) veya 587 (TLS)
-- **Email:** info@yourdomain.com
+- **Email:** info@parcaesyadepolama.com.tr
 - **Şifre:** Email şifresi
 
 ### Test Email

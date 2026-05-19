@@ -5,20 +5,65 @@ import Image from 'next/image'
 import { Phone, Mail, Menu, ChevronDown, Facebook, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { MobileMenu } from './MobileMenu'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+
+type ServiceLink = {
+  id: string
+  name: string
+  slug: string
+}
 
 export default function Header() {
   const [settings, setSettings] = useState<any>({})
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [services, setServices] = useState<ServiceLink[]>([])
 
   useEffect(() => {
-    fetch('/api/settings')
-      .then((res) => res.json())
-      .then((data) => {
-        setSettings(data)
-      })
-      .catch(() => {})
+    async function loadData() {
+      try {
+        const [settingsRes, servicesRes] = await Promise.all([
+          fetch('/api/settings'),
+          fetch('/api/services'),
+        ])
+
+        if (settingsRes.ok) {
+          const settingsData = await settingsRes.json()
+          setSettings(settingsData)
+        }
+
+        if (servicesRes.ok) {
+          const servicePayload = await servicesRes.json()
+          if (servicePayload?.data && Array.isArray(servicePayload.data)) {
+            setServices(
+              servicePayload.data.map((service: any) => ({
+                id: service.id,
+                name: service.name,
+                slug: service.slug,
+              }))
+            )
+          } else {
+            setServices([])
+          }
+        }
+      } catch (error) {
+        setServices([])
+      }
+    }
+
+    loadData()
   }, [])
+
+  const servicesColumns = useMemo(() => {
+    if (!services.length) return []
+    const maxItems = 12
+    const list = services.slice(0, maxItems)
+    const columnCount = 3
+    const chunkSize = Math.ceil(list.length / columnCount)
+
+    return Array.from({ length: columnCount }, (_, idx) =>
+      list.slice(idx * chunkSize, idx * chunkSize + chunkSize)
+    ).filter((column) => column.length > 0)
+  }, [services])
 
   return (
     <>
@@ -150,123 +195,34 @@ export default function Header() {
                 <ChevronDown className="w-4 h-4" />
               </Link>
               <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[800px] bg-white border border-gray-200 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 p-6">
-                <div className="grid grid-cols-3 gap-6">
-                  {/* Bireysel Taşımacılık */}
-                  <div>
-                    <h3 className="font-bold text-primary mb-3 pb-2 border-b border-border">
-                      Bireysel Taşımacılık
-                    </h3>
-                    <ul className="space-y-2">
-                      <li>
-                        <Link href="/hizmet/ev-tasima" className="block py-1 hover:text-primary transition text-sm">
-                          Ev Taşıma
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/villa-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Villa Taşımacılığı
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/yali-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Yalı Taşımacılığı
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/parca-esya-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Parça Eşya Taşımacılığı
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/sehir-ici-nakliyat" className="block py-1 hover:text-primary transition text-sm">
-                          Şehir içi Nakliyat
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/sehirler-arasi-nakliyat" className="block py-1 hover:text-primary transition text-sm">
-                          Şehirler Arası Nakliyat
-                        </Link>
-                      </li>
-                    </ul>
+                {servicesColumns.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    {servicesColumns.map((column, index) => (
+                      <div key={`service-column-${index}`}>
+                        <h3 className="font-bold text-primary mb-3 pb-2 border-b border-border">
+                          {index === 0 ? 'Öne Çıkanlar' : index === 1 ? 'Depolama & Taşıma' : 'Diğer Çözümler'}
+                        </h3>
+                        <ul className="space-y-2">
+                          {column.map((service) => (
+                            <li key={service.id}>
+                              <Link href={`/hizmet/${service.slug}`} className="block py-1 hover:text-primary transition text-sm">
+                                {service.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
                   </div>
-
-                  {/* Kurumsal Taşımacılık */}
-                  <div>
-                    <h3 className="font-bold text-primary mb-3 pb-2 border-b border-border">
-                      Kurumsal Taşımacılık
-                    </h3>
-                    <ul className="space-y-2">
-                      <li>
-                        <Link href="/hizmet/ofis-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Ofis Taşımacılığı
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/kurumsal-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Kurumsal Taşımacılık
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/fabrika-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Fabrika Taşımacılığı
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/banka-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Banka Taşımacılığı
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/fuar-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Fuar Taşımacılığı
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/hastane-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Hastane Taşımacılığı
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/konsolosluk-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Konsolosluk Taşımacılığı
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/universite-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Üniversite Taşımacılığı
-                        </Link>
-                      </li>
-                    </ul>
+                ) : (
+                  <div className="text-sm text-muted-foreground">
+                    Hizmet listesi yakında güncellenecek.
                   </div>
-
-                  {/* Diğer Hizmetler */}
-                  <div>
-                    <h3 className="font-bold text-primary mb-3 pb-2 border-b border-border">
-                      Diğer Hizmetler
-                    </h3>
-                    <ul className="space-y-2">
-                      <li>
-                        <Link href="/hizmet/arsiv-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Arşiv Taşımacılığı
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/muze-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Müze Taşımacılığı
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/bankamatik-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Bankamatik Taşımacılığı
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/hizmet/para-kasasi-tasimaciligi" className="block py-1 hover:text-primary transition text-sm">
-                          Para Kasası Taşımacılığı
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
+                )}
+                <div className="mt-4 pt-4 border-t border-border text-right">
+                  <Link href="/hizmetlerimiz" className="text-sm font-semibold text-primary hover:underline">
+                    Tüm hizmetleri görüntüle →
+                  </Link>
                 </div>
               </div>
             </div>
